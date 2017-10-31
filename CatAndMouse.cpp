@@ -4,12 +4,10 @@
 #include <QtGui/QPainter>
 #include "CatAndMouse.h"
 #include "AffinTranslate/AffineTranslate.h"
-#include <QDebug>
 #include <QtGui/QtGui>
 
 void CatAndMouse::paintEvent(QPaintEvent *qEvent) {
     QPainter painter(this);
-    qDebug() << "paint event called";
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setBrush(Qt::transparent);
 //    painter.setPen(Qt::DashLine);
@@ -23,19 +21,26 @@ void CatAndMouse::paintEvent(QPaintEvent *qEvent) {
     );
 
 
-    iteration += 1;
+    iteration = (iteration + 1) % 360;
 
     painter.setBackground(QBrush(Qt::white));
 
     QTransform matrix = AffineTranslate::rotateMatrix(-iteration);
     matrix *= AffineTranslate::moveMatrix(width() / 2, height() / 2);
     matrix *= AffineTranslate::moveMatrix(
-            radius * cos(qDegreesToRadians(-iteration)),
-            radius * sin(qDegreesToRadians(-iteration))
+            radius * cos(qDegreesToRadians(-(double) iteration)),
+            radius * sin(qDegreesToRadians(-(double) iteration))
     );
 
-    cat->draw(&painter, AffineTranslate::moveMatrix(width() / 2, height() / 2));
+    cat->draw(&painter, AffineTranslate::moveMatrix(50, height() / 2));
+    QTransform transform;
+    transform.rotate(iteration);
 
+    static int j = 50;
+    if (iteration > 175 && iteration < 185) j -= 10;
+    else if (j < 60) j++;
+
+    cat->drawLeftPaw(&painter, j);
     mouse->draw(&painter, matrix);
 
 }

@@ -12,10 +12,13 @@ class Cat : public Figure {
 public:
     void draw(QPainter *painter, QTransform position) override;
 
+    void drawLeftPaw(QPainter *painter, double angle);
 private:
+
+    QTransform catPosition;
+
     void drawBody(QPainter *painter);
 
-    void drawLeftPaw(QPainter *painter, const QTransform &transform);
 
     void drawEyes(QPainter *painter, const QTransform &transform);
 };

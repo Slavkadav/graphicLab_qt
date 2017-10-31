@@ -20,7 +20,7 @@ private:
 
     Mouse *mouse;
     QTimer *timer;
-    double iteration = 0;
+    int iteration = 0;
     Cat *cat;
 
 };
