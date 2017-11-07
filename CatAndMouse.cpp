@@ -10,7 +10,6 @@ void CatAndMouse::paintEvent(QPaintEvent *qEvent) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setBrush(Qt::transparent);
-//    painter.setPen(Qt::DashLine);
     int radius = 300;
 
     painter.drawEllipse(
@@ -32,15 +31,22 @@ void CatAndMouse::paintEvent(QPaintEvent *qEvent) {
             radius * sin(qDegreesToRadians(-(double) iteration))
     );
 
+
     cat->draw(&painter, AffineTranslate::moveMatrix(50, height() / 2));
     QTransform transform;
     transform.rotate(iteration);
-
+    //рисование левой лапы
     static int j = 50;
     if (iteration > 175 && iteration < 185) j -= 10;
     else if (j < 60) j++;
-
     cat->drawLeftPaw(&painter, j);
+
+    cat->drawTail(&painter, iteration);
+
+    cat->drawEyes(&painter, iteration);
+
+
+
     mouse->draw(&painter, matrix);
 
 }

@@ -69,21 +69,22 @@ void Cat::drawBody(QPainter *painter) {
     painter->translate(0, 10);
     painter->drawRect(-5, 0, 10, 5);
 
+    painter->resetTransform();
 }
 
 void Cat::drawLeftPaw(QPainter *painter, double angle) {
     painter->setTransform(catPosition);
-    painter->translate(-10, 55);
+    painter->translate(-10, 35);
 
     painter->translate(
-            30 * cos(qDegreesToRadians(180 + angle)),
+            -15,
             30 * sin(qDegreesToRadians(180 + angle))
     );
     painter->drawChord(0, 0, 20, 30, 30 * 16, 120 * 16);
 
     painter->setTransform(catPosition);
-    painter->translate(0, 50);
-    painter->rotate(angle + 20);
+    painter->translate(15, 30);
+    painter->rotate(angle);
 
     QPolygon polygon;
     polygon << QPoint(0, 0)
@@ -96,6 +97,34 @@ void Cat::drawLeftPaw(QPainter *painter, double angle) {
     painter->resetTransform();
 }
 
-void Cat::drawEyes(QPainter *painter, const QTransform &transform) {
+void Cat::drawEyes(QPainter *painter, double angle) {
+    painter->setTransform(catPosition);
+    QTransform eye;
+    painter->translate(20, 20);
+    eye = painter->transform();
+    painter->rotate(-angle);
+    painter->drawEllipse(0, 0, 5, 5);
 
+    painter->setTransform(eye);
+    painter->translate(25, 0);
+    painter->rotate(-angle);
+    painter->drawEllipse(0, 0, 5, 5);
+
+    painter->resetTransform();
+}
+
+void Cat::drawTail(QPainter *painter, double angle) {
+    painter->setTransform(catPosition);
+    painter->translate(70, 50);
+
+    angle = (int) (ceil(angle)) % 60;
+
+    painter->rotate(-angle - 90);
+
+    QPolygon tail;
+    tail << QPoint(0, 0)
+         << QPoint(5, 30)
+         << QPoint(-5, 30);
+
+    painter->drawPolygon(tail);
 }

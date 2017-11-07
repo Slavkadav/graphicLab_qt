@@ -13,6 +13,11 @@ public:
     void draw(QPainter *painter, QTransform position) override;
 
     void drawLeftPaw(QPainter *painter, double angle);
+
+    void drawEyes(QPainter *painter, double angle);
+
+    void drawTail(QPainter *painter, double angle);
+
 private:
 
     QTransform catPosition;
@@ -20,7 +25,6 @@ private:
     void drawBody(QPainter *painter);
 
 
-    void drawEyes(QPainter *painter, const QTransform &transform);
 };
 
 
